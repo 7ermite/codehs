@@ -1,0 +1,1082 @@
+/*This function makes the outline of Karel one body part at a time and then
+    fills in in with color row by row. Then it draws Karel's eye and collar.
+    */
+function start(){
+    moveToPosition1();
+    makeHindLegs();
+    moveToPosition2();
+    makeFrontLegs();
+    moveToPosition3();
+    makeTailAndBack();
+    makeHead();
+    goToTopLeft();
+    turnRight();
+    for(var i=0; i<3; i++){
+        move();
+    }
+    turnLeft();
+    for(var i=0; i<9; i++){
+        fillNoGap();
+    }
+    fillOneGapTwo();
+    fillOneGapOne();
+    fillOneGapTwo();
+    specialCaseOne();
+    for(var i=0; i<13; i++){
+        fillNoGap();
+    }
+    specialCaseTwo();
+    fillTwoGapTwo();
+    fillTwoGapOne();
+    fillTwoGapOne();
+    fillOneGapOne();
+    fillTwoGapTwo();
+    fillTwoGapTwo();
+    fillThreeGapThree();
+    specialCaseThree();
+    clearBalls();
+    goToEyePosition();
+    makeEye();
+    makeCollar();
+}
+
+//this function fills in the body with no gap sections
+function fillNoGap(){
+    setBalls();
+    setVariablePile();
+    fillLine();
+    nextLine();
+}
+
+//this function fills in one section, leaves a gap, then fills another
+function fillOneGapOne(){
+    setBalls();
+    setVariablePile();
+    fillLineOneGapOne();
+    nextLine();
+}
+
+//this function fills in one section, leaves a gap, then fills two sections
+function fillOneGapTwo(){
+    setBalls();
+    setVariablePile();
+    fillLineOneGapTwo();
+    nextLine();
+}
+
+//this function fills two sections, leaves a gap, then fills one section
+function fillTwoGapOne(){
+    setBalls();
+    setVariablePile();
+    fillLineTwoGapOne();
+    nextLine();
+}
+
+//this function fills two sections, leaves a gap, then fills two sections
+function fillTwoGapTwo(){
+    setBalls();
+    setVariablePile();
+    fillLineTwoGapTwo();
+    nextLine();
+}
+
+//this function fills three sections, leaves a gap, then fills three sections
+function fillThreeGapThree(){
+    setBalls();
+    setVariablePile();
+    fillLineThreeGapThree();
+    nextLine();
+}
+
+/*this function skips the first long length of black squares - the first
+    special case
+    */
+function specialCaseOne(){
+    setBalls();
+    setVariablePile();
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        if(ballsPresent()){
+            takeBall();
+            initialFill();
+            turnAround();
+            for(var i=0; i<16; i++){
+                move();
+            }
+            initialFill();
+            nextLine();
+        }
+    }
+}
+
+/*this function skips the second long length of black squares - the second
+    special case
+    */
+function specialCaseTwo(){
+    setBalls();
+    setVariablePile();
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        if(ballsPresent()){
+            takeBall();
+            initialFill();
+            addSecondFillSection();
+            turnAround();
+            for(var i=0; i<20; i++){
+                move();
+            }
+            initialFill();
+            nextLine();
+        }
+    }
+}
+
+/*this function skips the third long length of black squares - the third
+    special case
+    */
+function specialCaseThree(){
+    setBalls();
+    setVariablePile();
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        if(ballsPresent()){
+            takeBall();
+            initialFill();
+            turnAround();
+            for(var i=0; i<22; i++){
+                move();
+            }
+            initialFill();
+            nextLine();
+        }
+    }
+}
+
+//this function goes across a row placing balls on every black square
+function setBalls(){
+    while(frontIsClear()){
+        if(colorIs(Color.black)){
+            putBall();
+            move();
+        }else{
+            move();
+        }
+    }
+    if(colorIs(Color.black)){
+        putBall();
+    }
+    turnAround();
+}
+
+//this function goes across a row stacking all of the balls to the first column
+function setVariablePile(){
+    while(frontIsClear()){
+        move();
+    }
+    turnAround();
+    while(frontIsClear()){
+        if(ballsPresent()){
+            takeBall();
+            turnAround();
+            while(frontIsClear()){
+                move();
+            }
+            putBall();
+            turnAround();
+            move();
+        }else{
+                move();
+        }
+    }
+    turnAround();
+    while(frontIsClear()){
+        move();
+    }
+}
+
+/*this function takes instruction from the balls as to how many sections to fill
+    with no gap
+    */
+function fillLine(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        if(ballsPresent()){
+            takeBall();
+            initialFill();
+            addSecondFillSection();
+            addThirdFillSection();
+            addFourthFillSection();
+            addFifthFillSection();
+            addSixthFillSection();
+            addSeventhFillSection();
+            addEightFillSection();
+            addNinthFillSection();
+            addTenthFillSection();
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill one
+    section, then skip one, then fill another
+    */
+function fillLineOneGapOne(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        if(ballsPresent()){
+            takeBall();
+            initialFill();
+            addThirdFillSection();
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill one
+    section, then skip one, then fill two
+    */
+function fillLineOneGapTwo(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        if(ballsPresent()){
+            takeBall();
+            initialFill();
+            addThirdFillSection();
+            addFourthFillSection();
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill two
+    sections, then skip one, then fill one
+    */
+function fillLineTwoGapOne(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        if(ballsPresent()){
+            takeBall();
+            initialFill();
+            addSecondFillSection();
+            addFourthFillSection();
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill two
+    sections, then skip one, then fill two
+    */
+function fillLineTwoGapTwo(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        if(ballsPresent()){
+            takeBall();
+            initialFill();
+            addSecondFillSection();
+            addFourthFillSection();
+            addFifthFillSection();
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill three
+    sections, then skip one, then fill three
+    */
+function fillLineThreeGapThree(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        if(ballsPresent()){
+            takeBall();
+            initialFill();
+            addSecondFillSection();
+            addThirdFillSection();
+            addFifthFillSection();
+            addSixthFillSection();
+            addSeventhFillSection();
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill one
+    section
+    */
+function initialFill(){
+    while(frontIsClear()){
+        if(colorIs(Color.black)){
+            while(frontIsClear()){
+                move();
+                if(colorIs(Color.black)){
+                    aveOne();
+                }else{
+                    paint(Color.createFromRGB(159, 122, 85))
+                }
+            }
+        }else{
+            move();
+        }
+    }
+}
+
+//this function is the base code to fill color that the other fill functions use
+function fillBaseCode(){
+    while(frontIsClear()){
+        if(colorIs(Color.black)){
+            move();
+            while(frontIsClear()){
+                if(colorIs(Color.black)){
+                    move();
+                    while(frontIsClear()){
+                        if(colorIs(Color.black)){
+                            aveOne();
+                        }else{
+                            paint(Color.createFromRGB(159, 122, 85));
+                            move();
+                        }
+                    }
+                }else{
+                    move();
+                }
+            }
+        }else{
+            move();
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill the
+    second section
+    */
+function addSecondFillSection(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        fillBaseCode();
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill the
+    third section
+    */
+function addThirdFillSection(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        while(frontIsClear()){
+            if(colorIs(Color.black)){
+                move();
+                fillBaseCode();
+            }else{
+                move();
+            }
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill the
+    fourth section
+    */
+function addFourthFillSection(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        while(frontIsClear()){
+            if(colorIs(Color.black)){
+                move();
+                while(frontIsClear()){
+                    if(colorIs(Color.black)){
+                        move();
+                        fillBaseCode();
+                    }else{
+                        move();
+                    }
+                }
+            }else{
+                move();
+            }
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill the
+    fifth section
+    */
+function addFifthFillSection(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        while(frontIsClear()){
+            if(colorIs(Color.black)){
+                move();
+                while(frontIsClear()){
+                    if(colorIs(Color.black)){
+                        move();
+                        while(frontIsClear()){
+                            if(colorIs(Color.black)){
+                                move();
+                                fillBaseCode();
+                            }else{
+                                move();
+                            }
+                        }
+                    }else{
+                        move();
+                    }
+                }
+            }else{
+                move();
+            }
+        }
+    }
+}
+
+//this function is the base code to fill color that fill sections past five use
+function firstFiveFillBaseCode(){
+    while(frontIsClear()){
+        if(colorIs(Color.black)){
+            move();
+            while(frontIsClear()){
+                if(colorIs(Color.black)){
+                    move();
+                    while(frontIsClear()){
+                        if(colorIs(Color.black)){
+                            move();
+                            fillBaseCode();
+                        }else{
+                            move();
+                        }
+                    }
+                }else{
+                    move();
+                }
+            }
+        }else{
+            move();
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill the
+    sixth section
+    */
+function addSixthFillSection(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        while(frontIsClear()){
+            if(colorIs(Color.black)){
+                move();
+                firstFiveFillBaseCode();
+            }else{
+                move();
+            }
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill the
+    seventh section
+    */
+function addSeventhFillSection(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        while(frontIsClear()){
+            if(colorIs(Color.black)){
+                move();
+                while(frontIsClear()){
+                    if(colorIs(Color.black)){
+                        move();
+                        firstFiveFillBaseCode();
+                    }else{
+                        move();
+                    }
+                }
+            }else{
+                move();
+            }
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill the
+    eighth section
+    */
+function addEightFillSection(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        while(frontIsClear()){
+            if(colorIs(Color.black)){
+                move();
+                while(frontIsClear()){
+                    if(colorIs(Color.black)){
+                        move();
+                        while(frontIsClear()){
+                            if(colorIs(Color.black)){
+                                move();
+                                firstFiveFillBaseCode();
+                            }else{
+                                move();
+                            }
+                        }
+                    }else{
+                        move();
+                    }
+                }
+            }else{
+                move();
+            }
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill the
+    ninth section
+    */
+function addNinthFillSection(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        while(frontIsClear()){
+            if(colorIs(Color.black)){
+                move();
+                while(frontIsClear()){
+                    if(colorIs(Color.black)){
+                        move();
+                        while(frontIsClear()){
+                            if(colorIs(Color.black)){
+                                move();
+                                while(frontIsClear()){
+                                    if(colorIs(Color.black)){
+                                        move();
+                                        firstFiveFillBaseCode();
+                                    }else{
+                                        move();
+                                    }
+                                }
+                            }else{
+                                move();
+                            }
+                        }
+                    }else{
+                        move();
+                    }
+                }
+            }else{
+                move();
+            }
+        }
+    }
+}
+
+/*this function takes instructions from the balls as to if it should fill the
+    tenth section
+    */
+function addTenthFillSection(){
+    if(ballsPresent()){
+        turnAround();
+        takeBall();
+        while(frontIsClear()){
+            if(colorIs(Color.black)){
+                move();
+                while(frontIsClear()){
+                    if(colorIs(Color.black)){
+                        move();
+                        while(frontIsClear()){
+                            if(colorIs(Color.black)){
+                                move();
+                                while(frontIsClear()){
+                                    if(colorIs(Color.black)){
+                                        move();
+                                        while(frontIsClear()){
+                                            if(colorIs(Color.black)){
+                                                move();
+                                                firstFiveFillBaseCode();
+                                            }else{
+                                                move();
+                                            }
+                                        }
+                                    }else{
+                                        move();
+                                    }
+                                }
+                            }else{
+                                move();
+                            }
+                        }
+                    }else{
+                        move();
+                    }
+                }
+            }else{
+                move();
+            }
+        }
+    }
+}
+
+//this function moves Karel to the first column and then moves to the next line
+function nextLine(){
+    turnLeft();
+    if(frontIsClear()){
+        move();
+        turnLeft();
+    }
+}
+
+//this function moves Karel to the first avenue
+function aveOne(){
+    while(notFacingWest()){
+        turnLeft();
+    }
+    while(frontIsClear()){
+        move();
+    }
+}
+
+//this functions clears any left over balls Karel didn't take instruction from
+function clearBalls(){
+    while(notFacingNorth()){
+        turnLeft();
+    }
+    while(frontIsClear()){
+        while(ballsPresent()){
+            takeBall();
+        }
+        move();
+    }
+    turnRight();
+}
+
+//this function makes Karel move to the top left
+function goToTopLeft(){
+    while(notFacingWest()){
+        turnLeft();
+    }
+    while(frontIsClear()){
+        move();
+    }
+    turnRight();
+    while(frontIsClear()){
+        move();
+    }
+    turnRight();
+}
+
+//this function makes Karel move to the position the makeEye code starts at
+function goToEyePosition(){
+    for(var i=0; i<27; i++){
+        move();
+    }
+    turnRight();
+    for(var i=0; i<21; i++){
+        move();
+    }
+}
+
+//this function stores all the code to make the hind two legs
+function makeHindLegs(){
+    makeLineX3();
+    leftMove();
+    paint(Color.black);
+    aroundMove();
+    leftMove();
+    for (var i = 0; i < 5; i++){
+        paint(Color.black);
+        move();
+    }
+    rightMove();
+    turnLeft();
+    for (var i = 0; i < 3; i++){
+        paint(Color.black);
+        move();
+    }
+    leftMove();
+    for (var i = 0; i < 4; i++){
+        paint(Color.black);
+        move();
+    }
+    turnLeft();
+    for (var i = 0; i < 3; i++){
+        paintMove();
+    }
+    turnAround();
+    move();
+    for (var i = 0; i < 3; i++){
+        rightMPaintM();
+    }
+    turnLeft();
+    doubleMove();
+    paintMove();
+    rightMPaintM();
+    leftMPaintM();
+    paintMove();
+    rightMPaintM();
+    leftMove();
+    paint(Color.black);
+    aroundMove();
+    for (var i = 0; i < 3; i++){
+        paintMove();
+    }
+    for (var i = 0; i < 2; i++){
+        rightMove();
+        turnLeft();
+        paintMove();
+        paintMove();
+    }
+    leftMove();
+    paint(Color.black);
+    rightMPaintM();
+    turnRight();
+    for (var i = 0; i < 3; i++){
+        paintMove();
+    }
+    
+}
+
+//this function stores all the code to make the front two legs
+function makeFrontLegs(){
+    for (var i = 0; i < 8; i++){
+        paintMove();
+    }
+    leftMove();
+    for (var i = 0; i < 4; i++){
+        paintMove();
+    }
+    leftMPaintM();
+    paint(Color.black);
+    leftMPaintM();
+    rightMove();
+    for (var i = 0; i < 9; i++){
+        paintMove();
+    }
+    rightMove();
+    leftMove();
+    for (var i = 0; i < 5; i++){
+        move();
+    }
+    aroundMove();
+    for (var i = 0; i < 13; i++){
+        paintMove();
+    }
+    leftMPaintM();
+    paintMove();
+    rightMove();
+    for (var i = 0; i < 3; i++){
+        paintMove();
+    }
+    rightMove();
+    rightMove();
+    paint(Color.black);
+    for (var i = 0; i < 7; i++){
+        move();
+    }
+    turnLeft();
+    for (var i = 0; i < 7; i++){
+        move();
+    }
+    paintMove();
+    rightMove();
+    turnLeft();
+    for (var i = 0; i < 6; i++){
+        paintMove();
+    }
+    rightMPaintM();
+}
+
+//this function stores all the code to make Karel's head
+function makeHead(){
+    aroundMove();
+    rightMPaintM();
+    rightMove();
+    turnLeft();
+    for (var i = 0; i < 3; i++){
+        paintMove();
+    }
+    rightMove();
+    turnLeft();
+    for (var i = 0; i < 3; i++){
+        paintMove();
+    }
+    rightMPaintM();
+    rightMPaintM();
+    paint(Color.black);
+    leftMPaintM();
+    rightMove();
+    paint(Color.black);
+    leftMPaintM();
+    paintMove();
+    rightMPaintM();
+    paint(Color.black);
+    leftMPaintM();
+    for (var i = 0; i < 3; i++){
+        paintMove();
+    }
+    rightMPaintM();
+    leftMove();
+    turnRight();
+    for (var i = 0; i < 3; i++){
+        paintMove();
+    }
+    paint(Color.black);
+    turnRight();
+    for (var i = 0; i < 5; i++){
+        paintMove();
+    }
+    leftMove();
+    turnRight();
+    paint(Color.black);
+    move();
+    rightMove();
+    turnLeft();
+    paintMove();
+    leftMPaintM();
+    paintMove();
+    rightMPaintM();
+    leftMPaintM();
+    rightMPaintM();
+    aroundMove();
+    move();
+    rightMPaintM();
+    rightMove();
+    turnLeft();
+    paintMove();
+    paintMove();
+}
+
+//this function stores all the code to make Karel's tail and back
+function makeTailAndBack(){
+    paintMove();
+    rightMove();
+    paint(Color.black);
+    leftMPaintM();
+    rightPaint2Line();
+    leftMPaintM();
+    rightPaint2Line();
+    rightPaint2Line();
+    makeLineN1();
+    rightMove();
+    turnLeft();
+    paintMove();
+    paintMove();
+    rightMove();
+    paint(Color.black);
+    aroundMove();
+    rightMove();
+    for (var i = 0; i < 7; i++){
+        paintMove();
+    }
+    leftMove();
+    turnRight();
+    paintMove();
+    paintMove();
+    makeLineP1();
+}
+
+//this function stores all the code to make Karel's eye
+function makeEye(){
+    aroundMove();
+    for (var i = 0; i < 13; i++){
+        move();
+    }
+    rightMove();
+    move();
+    paint(Color.black);
+}
+
+//this function stores all the code to make Karel's collar
+function makeCollar(){
+    rightMove();
+    for (var i = 0; i < 9; i++){
+        move();
+    }
+    rightMove();
+    doubleMove();
+    rightMove();
+    turnLeft();
+    paint(Color.black);
+    rightMove();
+    leftMPaintM();
+    rightMove();
+    paint(Color.black);
+    leftMPaintM();
+    rightMPaintM();
+    leftMPaintM();
+    aroundMove();
+    for (var i = 0; i < 6; i++){
+        move();
+    }
+    rightMove();
+    for (var i = 0; i < 3; i++){
+        move();
+    }
+    paint(Color.black);
+    aroundMove();
+    paint(Color.black);
+    rightMove();
+    paint(Color.black);
+    leftMove();
+    rightMove();
+    turnAround();
+    doubleMove();
+    paintMove();
+    turnLeft();
+    paintMove();
+    paint(Color.black);
+    aroundMove();
+    leftMove();
+    paint(Color.black);
+    aroundMove();
+    leftMove();
+    turnLeft();
+    for (var i = 0; i < 4; i++){
+        paintMove();
+    }
+    aroundMove();
+    move();
+    leftMove();
+    turnLeft();
+    for (var i = 0; i < 3; i++){
+        paintMove();
+    }
+    aroundMove();
+    leftMPaintM();
+    aroundMove();
+    leftMPaintM();
+}
+
+//this function returns Karel to the start of the map after tracing the outline
+function returnToStart(){
+    turnRight();
+    while (frontIsClear()){
+        move();
+    }
+    turnRight();
+    while (frontIsClear()){
+        move();
+    }
+    turnAround();
+}
+
+//this function turns Karel right, then paints a black line two pixels long
+function rightPaint2Line(){
+    rightMPaintM();
+    paintMove();
+}
+
+//this function turns karel left, moves, paints a square, then moves
+function leftMPaintM(){
+    leftMove();
+    paintMove();
+}
+
+//this function works just like leftMPaintM, but it turns Karel right, moves, paints a square, then moves
+function rightMPaintM(){
+    rightMove();
+    paintMove();
+}
+
+//this function moves karel straight twice
+function doubleMove(){
+    move();
+    move();
+}
+
+//this function turns karel left and moves
+function leftMove(){
+    turnLeft();
+    move();
+}
+
+//this function turns karel left and moves
+function rightMove(){
+    turnRight();
+    move();
+}
+
+//this function turns karel around and moves
+function aroundMove(){
+    turnAround();
+    move();
+}
+
+//this function paints a square then moves karel
+function paintMove(){
+    paint(Color.black);
+    move();
+}
+
+//this function creates a black line with a slope of 3
+function makeLineX3(){
+    for (var i = 0; i < 3; i++){
+        paint(Color.black);
+        move();
+        paint(Color.black);
+        move();
+        paint(Color.black);
+        turnRight();
+        move();
+        turnLeft();
+        move();
+    }
+}
+
+//this function creates a black line with a slope of -1
+function makeLineN1(){
+    rightMPaintM();
+    leftMPaintM();
+}
+
+//this function creates a black line with a slope of 1
+function makeLineP1(){
+    leftMPaintM();
+    rightMPaintM();
+    leftMPaintM();
+    rightMPaintM();
+}
+
+//this function takes karel and moves him to the first position to begin drawing his hind legs
+function moveToPosition1(){
+    for (var i = 0; i < 5; i++){
+        move();
+    }
+    turnLeft();
+    for (var i = 0; i < 19; i++){
+        move();
+    }
+    turnRight();
+    move();
+    move();
+    move();
+    turnRight();
+}
+
+//this function takes karel and moves him to the second position to begin drawing his back legs
+function moveToPosition2(){
+    turnAround();
+    for (var i = 0; i < 13; i++){
+        move();
+    }
+    turnLeft();
+    for (var i = 0; i < 7; i++){
+        move();
+    }
+    turnAround();
+}
+
+//this function takes karel and moves him to the third position to begin drawing his tail
+function moveToPosition3(){
+    for (var i = 0; i < 8; i++){
+        move();
+    }
+    turnLeft();
+    for (var i = 0; i < 7; i++){
+        move();
+    }
+}
